@@ -7,7 +7,8 @@ public class Program {
         if (start >= end) return;
 
         int mid = (start+end)/2;
-
+        mergeSort(nums, start,mid);
+        mergeSort(nums, mid+1, end);
         }
 
     }
