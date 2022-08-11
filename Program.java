@@ -2,7 +2,7 @@
 public class Program {
     public static void main(String[] args) {
 
-        int[] nums = new int[] {5,4,3,2,1};
+        /*int[] nums = new int[] {5,4,3,2,1};
         mergeSort(nums, 0, nums.length -1 );
 
     }
@@ -30,6 +30,8 @@ public class Program {
         while (right <= end) temp[k++] = nums[right++];
 
         System.arraycopy(temp, 0, nums, start, end + 1 - start);
-        }
+        }*/
     }
 
+
+}
