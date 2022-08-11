@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Progmam" type="Java Scratch" singleton="false">
+    <option name="MAIN_CLASS_NAME" value="Program" />
+    <module name="Dz" />
+    <option name="SCRATCH_FILE_URL" value="file://$PROJECT_DIR$/Program.java" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

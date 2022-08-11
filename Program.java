@@ -1,2 +1,12 @@
-package PACKAGE_NAME;public class Program {
+
+public class Program {
+    public static void main(String[] args) {
+
+    }
+    public static void mergeSort(int [] nums, int start, int end) {
+        if (start >= end) return;
+
+        }
+
+    }
 }
