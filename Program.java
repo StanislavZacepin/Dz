@@ -1,70 +1,73 @@
 import  java.util.ArrayList;
 import  java.util.List;
 public class Program {
-
-    public static int count = 8;
-
-
     public static void main(String[] args) {
 
-        int[][] board = new int[8][8];
-        print(board);
-        Quen(board, 0);
-
-
     }
-
-    public static void print(int[][] board) {
-        int n = board.length;
-        System.out.println("------------------------------");
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(board[i][j] + "|");
-            }
-            System.out.println();
-        }
-        System.out.println("------------------------------");
-    }
-
-    public static boolean Power(int[][] board, int row, int col) {
-        int i, j;
-
-            for (i = 0; i < col; i++)
-                if (board[row][i] == 1)
-                    return false;
-            for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
-                if (board[i][j] == 1)
-                    return false;
-            for (i = row, j = col; j >= 0 && i < count; i++, j--)
-                if (board[i][j] == 1)
-                    return false;
-
-            return true;
-
-    }
-
-
-
-    public static boolean Quen(int board[][], int col) {
-        if (col >= count)
-            return true;
-
-        for (int i = 0; i < count; i++) {
-            if (Power(board, i, col)) {
-                board[i][col] = 1;
-
-                if (Quen(board, col + 1) == true)
-                    return true;
-
-                board[i][col] = 0;
-            }
-        }
-
-        print(board);
-        return false;
-    }
-}
-
+//    //На шахматной доске расставить 8 ферзей так, чтобы они не били друг друга.
+//    public static int count = 8;
+//
+//
+//    public static void main(String[] args) {
+//
+//        int[][] board = new int[8][8];
+//        print(board);
+//        Quen(board, 0);
+//
+//
+//    }
+//
+//    public static void print(int[][] board) {
+//        int n = board.length;
+//        System.out.println("------------------------------");
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                System.out.print(board[i][j] + "|");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println("------------------------------");
+//    }
+//
+//    public static boolean Power(int[][] board, int row, int col) {
+//        int i, j;
+//
+//            for (i = 0; i < col; i++)
+//                if (board[row][i] == 1)
+//                    return false;
+//            for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+//                if (board[i][j] == 1)
+//                    return false;
+//            for (i = row, j = col; j >= 0 && i < count; i++, j--)
+//                if (board[i][j] == 1)
+//                    return false;
+//
+//            return true;
+//
+//    }
+//
+//
+//
+//    public static boolean Quen(int board[][], int col) {
+//        if (col >= count)
+//            return true;
+//
+//        for (int i = 0; i < count; i++) {
+//            if (Power(board, i, col)) {
+//                board[i][col] = 1;
+//
+//                if (Quen(board, col + 1) == true)
+//                    return true;
+//
+//                board[i][col] = 0;
+//            }
+//        }
+//
+//        print(board);
+//        return false;
+//    }
+//}
+//
 
 
 
