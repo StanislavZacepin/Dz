@@ -9,6 +9,7 @@ public class Program {
 
         int[][] board = new int[8][8];
         print(board);
+        Power(board,0,0);
 
 
     }
@@ -23,7 +24,15 @@ public static  void print(int[][] board){
     }
     System.out.println("------------------------------");
 }
+    public static void Power(int[][] board, int row, int col) {
+        if(count != 8){
+            for (i = 0; i < col; i++)
+                if (board[row][i] == 1)
+                    return false;
 
+        }
+
+    }
 }
 
 
