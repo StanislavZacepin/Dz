@@ -1,9 +1,104 @@
 import  java.util.ArrayList;
 import  java.util.List;
 public class Program {
+    public static int count = 8;
+    public static int count2 = 1;
     public static void main(String[] args) {
+        //Шахматную доску размером NxN обойти конём так,
+        // чтобы фигура в каждой клетке была строго один раз.
+        int[][] board = new int[8][8];
 
+        print(board);
+        Power(board, 0, 0);
     }
+
+
+
+    public static void print(int[][] board) {
+        int n = board.length;
+        System.out.println("------------------------------");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(board[i][j] + "|");
+            }
+            System.out.println();
+        }
+        System.out.println("------------------------------");
+    }
+
+    public static boolean Power(int[][] board, int row, int col) {
+        int i, j;
+        for(i = row; i < board.length;i++)
+            for (j = col; j < board.length;j++){
+                if(i+2 <= 7 && j+1 <= 7 && board[i+2][j+1] < 1){
+                    board[i+2][j+1] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i+2, j+1);
+
+                }
+
+                else if(i+2 <= 7 && j-1 >= 0 && board[i+2][j-1] < 1){
+                    board[i+2][j-1] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i+2, j-1);
+                }
+
+                else if (i-2 >= 0 && j+1 <= 7 && board[i-2][j+1] < 1) {
+                    board[i-2][j+1] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i-2, j+1);
+                }
+
+               else if(i-2 >= 0 && j-1 >= 0 && board[i-2][j-1] < 1){
+                    board[i-2][j-1] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i-2, j-1);
+                }
+
+               else if(i+1 <= 7 && j+2 <= 7 && board[i+1][j+2] < 1){
+                    board[i+1][j+2] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i+1, j+2);
+                }
+
+               else if(i+1 <= 7 && j-2 >= 0 && board[i+1][j-2] < 1)
+                {
+                    board[i+1][j-2] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i+1, j-2);
+                }
+
+                else if(i-1 >= 0 && j+2 <= 7 && board[i-1][j+2] < 1)
+                {
+                    board[i-1][j+2] = count2;
+                    count2++;
+                    print(board);
+                    Power(board, i-1, j+2);
+                }
+               else if(i-1 >= 0 && j-2 >= 0 && board[i-1][j-2] < 1)
+                {
+                    board[i-1][j-2]= count2;
+                    count2++;
+                    print(board);
+                    Power(board, i-1, j-2);
+                }
+               else {
+                    return false;
+            }
+            }
+
+            return true;
+    }
+
+}
+
+
 //    //На шахматной доске расставить 8 ферзей так, чтобы они не били друг друга.
 //    public static int count = 8;
 //
