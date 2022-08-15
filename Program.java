@@ -1,19 +1,34 @@
 import  java.util.ArrayList;
 import  java.util.List;
 public class Program {
-    public static int count = 8;
-    public static int count2 = 1;
-    public static void main(String[] args) {
-        //Шахматную доску размером NxN обойти конём так,
-        // чтобы фигура в каждой клетке была строго один раз.
-        int[][] board = new int[8][8];
+    // Шахматная доска `N × N`
+    public static final int N = 5;
 
-        print(board);
-        Power(board, 0, 0);
+    // Ниже массивы детализируют все восемь возможных движений коня.
+    // Не меняйте последовательность следующих массивов
+    public static final int[] row = { 2, 1, -1, -2, -2, -1, 1, 2, 2 };
+    public static final int[] col = { 1, 2, 2, 1, -1, -2, -2, -1, 1 };
+
+    // Проверяем, являются ли `(x, y)` действительными координатами шахматной доски.
+    // Обратите внимание, что конь не может выйти за пределы доски
+    public static void main(String[] args)
+    {
+        // `visited[][]` служит двум целям:
+        // 1. Он отслеживает поля, задействованные в обходе коня.
+        // 2. Хранит порядок посещения квадратов.
+        int[][] visited = new int[N][N];
+        int pos = 1;
+
+        // начинаем обход конем с углового квадрата `(0, 0)`
+        knightTour(visited, 0, 0, pos);
     }
-
-
-
+    private static boolean isValid(int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= N || y >= N) {
+            return false;
+        }
+        return true;
+    }
     public static void print(int[][] board) {
         int n = board.length;
         System.out.println("------------------------------");
@@ -26,197 +41,37 @@ public class Program {
         System.out.println("------------------------------");
     }
 
-    public static boolean Power(int[][] board, int row, int col) {
-        int i, j;
-        for(i = row; i < board.length;i++)
-            for (j = col; j < board.length;j++){
-                if(i+2 <= 7 && j+1 <= 7 && board[i+2][j+1] < 1){
-                    board[i+2][j+1] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i+2, j+1);
+    // Рекурсивная функция для выполнения обхода рыцаря с Backtracking
+    public static void knightTour(int[][] visited, int x, int y, int pos)
+    {
+        // отметить текущий квадрат как посещенный
+        visited[x][y] = pos;
 
-                }
+        // если все квадраты посещены, выводим решение
+        if (pos >= N*N)
+        {
+            print(visited);
+            // откат перед возвратом
+            visited[x][y] = 0;
+            return;
+        }
 
-                else if(i+2 <= 7 && j-1 >= 0 && board[i+2][j-1] < 1){
-                    board[i+2][j-1] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i+2, j-1);
-                }
+        // проверка всех восьми возможных движений коня
+        // и повторяться для каждого допустимого движения
+        for (int k = 0; k < 8; k++)
+        {
+            // получаем новую позицию коня из текущей
+            // позиция на шахматной доске
+            int newX = x + row[k];
+            int newY = y + col[k];
 
-                else if (i-2 >= 0 && j+1 <= 7 && board[i-2][j+1] < 1) {
-                    board[i-2][j+1] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i-2, j+1);
-                }
-
-               else if(i-2 >= 0 && j-1 >= 0 && board[i-2][j-1] < 1){
-                    board[i-2][j-1] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i-2, j-1);
-                }
-
-               else if(i+1 <= 7 && j+2 <= 7 && board[i+1][j+2] < 1){
-                    board[i+1][j+2] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i+1, j+2);
-                }
-
-               else if(i+1 <= 7 && j-2 >= 0 && board[i+1][j-2] < 1)
-                {
-                    board[i+1][j-2] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i+1, j-2);
-                }
-
-                else if(i-1 >= 0 && j+2 <= 7 && board[i-1][j+2] < 1)
-                {
-                    board[i-1][j+2] = count2;
-                    count2++;
-                    print(board);
-                    Power(board, i-1, j+2);
-                }
-               else if(i-1 >= 0 && j-2 >= 0 && board[i-1][j-2] < 1)
-                {
-                    board[i-1][j-2]= count2;
-                    count2++;
-                    print(board);
-                    Power(board, i-1, j-2);
-                }
-               else {
-                    return false;
+            // если новая позиция действительна и еще не посещена
+            if (isValid(newX, newY) && visited[newX][newY] == 0) {
+                knightTour(visited, newX, newY, pos + 1);
             }
-            }
+        }
 
-            return true;
+        // вернуться из текущего квадрата и удалить его из текущего пути
+        visited[x][y] = 0;
     }
-
 }
-
-
-//    //На шахматной доске расставить 8 ферзей так, чтобы они не били друг друга.
-//    public static int count = 8;
-//
-//
-//    public static void main(String[] args) {
-//
-//        int[][] board = new int[8][8];
-//        print(board);
-//        Quen(board, 0);
-//
-//
-//    }
-//
-//    public static void print(int[][] board) {
-//        int n = board.length;
-//        System.out.println("------------------------------");
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                System.out.print(board[i][j] + "|");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println("------------------------------");
-//    }
-//
-//    public static boolean Power(int[][] board, int row, int col) {
-//        int i, j;
-//
-//            for (i = 0; i < col; i++)
-//                if (board[row][i] == 1)
-//                    return false;
-//            for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
-//                if (board[i][j] == 1)
-//                    return false;
-//            for (i = row, j = col; j >= 0 && i < count; i++, j--)
-//                if (board[i][j] == 1)
-//                    return false;
-//
-//            return true;
-//
-//    }
-//
-//
-//
-//    public static boolean Quen(int board[][], int col) {
-//        if (col >= count)
-//            return true;
-//
-//        for (int i = 0; i < count; i++) {
-//            if (Power(board, i, col)) {
-//                board[i][col] = 1;
-//
-//                if (Quen(board, col + 1) == true)
-//                    return true;
-//
-//                board[i][col] = 0;
-//            }
-//        }
-//
-//        print(board);
-//        return false;
-//    }
-//}
-//
-
-
-
-
-
-
-
-//public  static
-//        List<List<Integer>> ans = new ArrayList<>();
-//    public static void main(String[] args) {
-//
-//        /*int[] nums = new int[] {5,4,3,2,1};
-//        mergeSort(nums, 0, nums.length -1 );
-//
-//    }
-//    public static void mergeSort(int [] nums, int start, int end) {
-//        if (start >= end) return;
-//
-//        int mid = (start+end)/2;
-//        mergeSort(nums, start,mid);
-//        mergeSort(nums, mid+1, end);
-//        merge(nums, start, mid, end);
-//        }
-//
-//        public static void merge(int[] nums, int start, int mid, int end){
-//        int[] temp = new int[end - start + 1];
-//        int right = mid +1;
-//        int k = 0;
-//        while (start <= mid && right <= end) {
-//            if(nums[start] < nums[right]){
-//                temp[k++] = nums[start++];
-//            }else {
-//                temp[k++] = nums[right++];
-//            }
-//        }
-//        while (start <= mid) temp[k++] = nums[start++];
-//        while (right <= end) temp[k++] = nums[right++];
-//
-//        System.arraycopy(temp, 0, nums, start, end + 1 - start);
-//        }*/
-//    }
-//    public List<List<Integer>> combine(int n, int k) {
-//        genComb(n, k, 0, new ArrayList<>());
-//        return ans;
-//    }
-//    private void genComb(int n, int k, int prevEl, List<Integer> curComb){
-//        if(curComb.size() == k){
-//            ans.add(new ArrayList<>(curComb));
-//        }
-//
-//        for (int i = prevEl + 1; i <= n; i++){
-//            curComb.add(i);
-//            genComb(n, k, i, curComb);
-//            curComb.remove(curComb.size() - 1);
-//        }
-//    }
-//}
