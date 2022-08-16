@@ -1,52 +1,77 @@
 import  java.util.ArrayList;
 import  java.util.List;
 public class Program {
-    List<List<Integer>> ans = new ArrayList<>();
-    public static void main(String[] args) {
+    // Шахматная доска `N × N`
+    public static final int N = 5;
 
-        /*int[] nums = new int[] {5,4,3,2,1};
-        mergeSort(nums, 0, nums.length -1 );
+    // Ниже массивы детализируют все восемь возможных движений коня.
+    // Не меняйте последовательность следующих массивов
+    public static final int[] row = { 2, 1, -1, -2, -2, -1, 1, 2, 2 };
+    public static final int[] col = { 1, 2, 2, 1, -1, -2, -2, -1, 1 };
 
+    // Проверяем, являются ли `(x, y)` действительными координатами шахматной доски.
+    // Обратите внимание, что конь не может выйти за пределы доски
+    public static void main(String[] args)
+    {
+        // `visited[][]` служит двум целям:
+        // 1. Он отслеживает поля, задействованные в обходе коня.
+        // 2. Хранит порядок посещения квадратов.
+        int[][] visited = new int[N][N];
+        int pos = 1;
+
+        // начинаем обход конем с углового квадрата `(0, 0)`
+        knightTour(visited, 0, 0, pos);
     }
-    public static void mergeSort(int [] nums, int start, int end) {
-        if (start >= end) return;
+    private static boolean isValid(int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= N || y >= N) {
+            return false;
+        }
+        return true;
+    }
+    public static void print(int[][] board) {
+        int n = board.length;
+        System.out.println("------------------------------");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(board[i][j] + "|");
+            }
+            System.out.println();
+        }
+        System.out.println("------------------------------");
+    }
 
-        int mid = (start+end)/2;
-        mergeSort(nums, start,mid);
-        mergeSort(nums, mid+1, end);
-        merge(nums, start, mid, end);
+    // Рекурсивная функция для выполнения обхода рыцаря с Backtracking
+    public static void knightTour(int[][] visited, int x, int y, int pos)
+    {
+        // отметить текущий квадрат как посещенный
+        visited[x][y] = pos;
+
+        // если все квадраты посещены, выводим решение
+        if (pos >= N*N)
+        {
+            print(visited);
+            // откат перед возвратом
+            visited[x][y] = 0;
+            return;
         }
 
-        public static void merge(int[] nums, int start, int mid, int end){
-        int[] temp = new int[end - start + 1];
-        int right = mid +1;
-        int k = 0;
-        while (start <= mid && right <= end) {
-            if(nums[start] < nums[right]){
-                temp[k++] = nums[start++];
-            }else {
-                temp[k++] = nums[right++];
+        // проверка всех восьми возможных движений коня
+        // и повторяться для каждого допустимого движения
+        for (int k = 0; k < 8; k++)
+        {
+            // получаем новую позицию коня из текущей
+            // позиция на шахматной доске
+            int newX = x + row[k];
+            int newY = y + col[k];
+
+            // если новая позиция действительна и еще не посещена
+            if (isValid(newX, newY) && visited[newX][newY] == 0) {
+                knightTour(visited, newX, newY, pos + 1);
             }
         }
-        while (start <= mid) temp[k++] = nums[start++];
-        while (right <= end) temp[k++] = nums[right++];
 
-        System.arraycopy(temp, 0, nums, start, end + 1 - start);
-        }*/
-    }
-    public List<List<Integer>> combine(int n, int k) {
-        genComb(n, k, 0, new ArrayList<>());
-        return ans;
-    }
-    private void genComb(int n, int k, int prevEl, List<Integer> curComb){
-        if(curComb.size() == k){
-            ans.add(new ArrayList<>(curComb));
-        }
-
-        for (int i = prevEl + 1; i <= n; i++){
-            curComb.add(i);
-            genComb(n, k, i, curComb);
-            curComb.remove(curComb.size() - 1);
-        }
+        // вернуться из текущего квадрата и удалить его из текущего пути
+        visited[x][y] = 0;
     }
 }
